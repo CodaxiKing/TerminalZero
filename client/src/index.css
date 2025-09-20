@@ -1,0 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(120, 20%, 15%);
+  --foreground: hsl(60, 100%, 95%);
+  --card: hsl(120, 15%, 20%);
+  --card-foreground: hsl(60, 100%, 90%);
+  --popover: hsl(120, 15%, 20%);
+  --popover-foreground: hsl(60, 100%, 90%);
+  --primary: hsl(42, 100%, 60%);
+  --primary-foreground: hsl(120, 20%, 15%);
+  --secondary: hsl(120, 40%, 35%);
+  --secondary-foreground: hsl(60, 100%, 95%);
+  --muted: hsl(120, 15%, 25%);
+  --muted-foreground: hsl(60, 50%, 70%);
+  --accent: hsl(272, 60%, 65%);
+  --accent-foreground: hsl(60, 100%, 95%);
+  --destructive: hsl(0, 70%, 55%);
+  --destructive-foreground: hsl(60, 100%, 95%);
+  --border: hsl(120, 20%, 30%);
+  --input: hsl(120, 15%, 25%);
+  --ring: hsl(42, 100%, 60%);
+  --chart-1: hsl(203.8863, 88.2845%, 53.1373%);
+  --chart-2: hsl(159.7826, 100%, 36.0784%);
+  --chart-3: hsl(42.0290, 92.8251%, 56.2745%);
+  --chart-4: hsl(147.1429, 78.5047%, 41.9608%);
+  --chart-5: hsl(341.4894, 75.2000%, 50.9804%);
+  --sidebar: hsl(120, 15%, 20%);
+  --sidebar-foreground: hsl(60, 100%, 90%);
+  --sidebar-primary: hsl(42, 100%, 60%);
+  --sidebar-primary-foreground: hsl(120, 20%, 15%);
+  --sidebar-accent: hsl(272, 60%, 65%);
+  --sidebar-accent-foreground: hsl(60, 100%, 95%);
+  --sidebar-border: hsl(120, 20%, 30%);
+  --sidebar-ring: hsl(42, 100%, 60%);
+  --font-sans: "Press Start 2P", monospace;
+  --font-serif: Georgia, serif;
+  --font-mono: "Press Start 2P", monospace;
+  --radius: 4px;
+  --shadow-2xs: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-xs: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-sm: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 1px 2px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 1px 2px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-md: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 2px 4px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-lg: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 4px 6px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-xl: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 8px 10px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-2xl: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+}
+
+.dark {
+  --background: hsl(0, 0%, 0%);
+  --foreground: hsl(200, 6.6667%, 91.1765%);
+  --card: hsl(228, 9.8039%, 10%);
+  --card-foreground: hsl(0, 0%, 85.0980%);
+  --popover: hsl(0, 0%, 0%);
+  --popover-foreground: hsl(200, 6.6667%, 91.1765%);
+  --primary: hsl(203.7736, 87.6033%, 52.5490%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(195.0000, 15.3846%, 94.9020%);
+  --secondary-foreground: hsl(210, 25%, 7.8431%);
+  --muted: hsl(0, 0%, 9.4118%);
+  --muted-foreground: hsl(210, 3.3898%, 46.2745%);
+  --accent: hsl(205.7143, 70%, 7.8431%);
+  --accent-foreground: hsl(203.7736, 87.6033%, 52.5490%);
+  --destructive: hsl(356.3033, 90.5579%, 54.3137%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --border: hsl(210, 5.2632%, 14.9020%);
+  --input: hsl(207.6923, 27.6596%, 18.4314%);
+  --ring: hsl(202.8169, 89.1213%, 53.1373%);
+  --chart-1: hsl(203.8863, 88.2845%, 53.1373%);
+  --chart-2: hsl(159.7826, 100%, 36.0784%);
+  --chart-3: hsl(42.0290, 92.8251%, 56.2745%);
+  --chart-4: hsl(147.1429, 78.5047%, 41.9608%);
+  --chart-5: hsl(341.4894, 75.2000%, 50.9804%);
+  --sidebar: hsl(228, 9.8039%, 10%);
+  --sidebar-foreground: hsl(0, 0%, 85.0980%);
+  --sidebar-primary: hsl(202.8169, 89.1213%, 53.1373%);
+  --sidebar-primary-foreground: hsl(0, 0%, 100%);
+  --sidebar-accent: hsl(205.7143, 70%, 7.8431%);
+  --sidebar-accent-foreground: hsl(203.7736, 87.6033%, 52.5490%);
+  --sidebar-border: hsl(205.7143, 15.7895%, 26.0784%);
+  --sidebar-ring: hsl(202.8169, 89.1213%, 53.1373%);
+  --font-sans: "Press Start 2P", monospace;
+  --font-serif: Georgia, serif;
+  --font-mono: "Press Start 2P", monospace;
+  --radius: 4px;
+  --shadow-2xs: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-xs: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-sm: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 1px 2px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 1px 2px -2px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-md: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 2px 4px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-lg: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 4px 6px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-xl: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 8px 10px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --shadow-2xl: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    background: linear-gradient(180deg, hsl(200, 80%, 60%) 0%, hsl(120, 60%, 40%) 100%);
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  .pixel-button {
+    background: linear-gradient(145deg, hsl(42, 100%, 65%) 0%, hsl(42, 100%, 55%) 100%);
+    border: 3px solid hsl(42, 100%, 40%);
+    box-shadow: 
+      inset 2px 2px 0 hsl(42, 100%, 75%),
+      inset -2px -2px 0 hsl(42, 100%, 45%),
+      0 4px 8px rgba(0,0,0,0.3);
+    transition: all 0.1s ease;
+  }
+
+  .pixel-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 
+      inset 2px 2px 0 hsl(42, 100%, 75%),
+      inset -2px -2px 0 hsl(42, 100%, 45%),
+      0 6px 12px rgba(0,0,0,0.4);
+  }
+
+  .pixel-button:active {
+    transform: translateY(1px);
+    box-shadow: 
+      inset 2px 2px 0 hsl(42, 100%, 45%),
+      inset -2px -2px 0 hsl(42, 100%, 75%),
+      0 2px 4px rgba(0,0,0,0.3);
+  }
+
+  .level-node {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(145deg, hsl(30, 60%, 55%) 0%, hsl(30, 60%, 45%) 100%);
+    border: 3px solid hsl(30, 60%, 35%);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  }
+
+  .level-node::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 12px solid hsl(0, 70%, 50%);
+  }
+
+  .level-node:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px hsl(42, 100%, 60%);
+  }
+
+  .level-node.completed {
+    box-shadow: 0 0 20px hsl(120, 60%, 50%);
+    border: 3px solid hsl(120, 60%, 50%);
+  }
+
+  .boss-node {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(145deg, hsl(272, 40%, 45%) 0%, hsl(272, 40%, 35%) 100%);
+    border: 4px solid hsl(272, 40%, 25%);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+  }
+
+  .boss-node::before {
+    content: '👑';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+  }
+
+  .boss-node:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px hsl(272, 60%, 65%);
+  }
+
+  .modal-backdrop {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+  }
+
+  .modal-content {
+    background: linear-gradient(145deg, hsl(120, 15%, 25%) 0%, hsl(120, 15%, 20%) 100%);
+    border: 4px solid hsl(120, 20%, 35%);
+    box-shadow: 
+      inset 2px 2px 0 hsl(120, 15%, 30%),
+      inset -2px -2px 0 hsl(120, 15%, 15%),
+      0 8px 32px rgba(0,0,0,0.5);
+  }
+
+  .game-path {
+    stroke: hsl(30, 60%, 45%);
+    stroke-width: 8;
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 20 10;
+    animation: pathMove 3s linear infinite;
+  }
+
+  @keyframes pathMove {
+    0% { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: 30; }
+  }
+
+  .node-label {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8px;
+    color: hsl(60, 100%, 95%);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+    white-space: nowrap;
+  }
+
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: hsl(60, 100%, 90%);
+    animation: twinkle 3s ease-in-out infinite alternate;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.3; }
+    100% { opacity: 1; }
+  }
+}
+
+@media (max-width: 768px) {
+  .level-node { 
+    width: 40px; 
+    height: 40px; 
+  }
+  .boss-node { 
+    width: 64px; 
+    height: 64px; 
+  }
+  .node-label { 
+    font-size: 6px; 
+  }
+}

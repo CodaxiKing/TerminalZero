@@ -1,0 +1,91 @@
+Função: Desenvolvedor Web Full-Stack Sênior
+
+Tarefa: Crie a estrutura inicial e o protótipo funcional para um website de aprendizado de programação gamificado chamado "CodeQuest". O site será em português e o foco inicial é o roadmap de JavaScript.
+
+Contexto: O objetivo é criar uma experiência de aprendizado divertida e engajadora, inspirada em jogos com mapas de progressão (como Candy Crush) e com uma estética pixel art (similar a Stardew Valley). O usuário progride por um mapa, completando lições ("casinhas") e enfrentando desafios ("chefões") para avançar.
+
+Requisitos Detalhados:
+
+1. Estrutura de Arquivos:
+Crie os seguintes arquivos:
+
+index.html (A landing page do site)
+
+game.html (A página principal do jogo com o mapa de aprendizado)
+
+style.css (Para estilização de ambas as páginas)
+
+script.js (Para toda a lógica do jogo, interatividade e conteúdo das lições)
+
+2. Página Inicial (index.html):
+
+Crie uma landing page simples e convidativa.
+
+Conteúdo:
+
+Um título grande: "Bem-vindo ao CodeQuest!"
+
+Um subtítulo: "Sua jornada para se tornar um mestre da programação começa aqui."
+
+Um botão grande e chamativo com o texto "Iniciar Aventura!" que redireciona o usuário para a página game.html.
+
+Estilo: Use uma fonte pixelada e um layout centralizado e limpo.
+
+3. Página do Jogo (game.html):
+
+Esta é a tela principal. O layout deve conter:
+
+Um <div> principal que servirá como o container do mapa do jogo.
+
+Dentro deste container, crie um caminho sinuoso (pode ser um <svg> ou uma imagem de fundo).
+
+Posicionados ao longo do caminho, crie 5 <div>s clicáveis que representarão os níveis iniciais (as "casinhas"). Dê a eles uma classe .level-node.
+
+Após o 5º nó, crie um <div> maior e mais imponente, representando o primeiro "chefão". Dê a ele uma classe .boss-node.
+
+Um <div> que funcionará como uma janela modal (inicialmente oculta) para exibir o conteúdo das lições e os desafios dos chefões.
+
+4. Estilização (style.css):
+
+Tema Geral: Use uma estética pixel art. A paleta de cores deve ser vibrante e divertida, com fundos que remetam a um mundo de fantasia (grama, árvores, etc.).
+
+Mapa: O fundo da página game.html deve ser uma paisagem pixelada.
+
+Nós de Nível (.level-node): Estilize para que pareçam pequenas casas ou pontos de interesse em um mapa. Adicione um efeito hover para indicar que são clicáveis.
+
+Nó do Chefão (.boss-node): Estilize para que pareça um castelo ou uma caverna, maior e mais ameaçador que os nós normais.
+
+Modal de Lição: Crie o estilo para a janela modal. Deve ter um fundo semi-opaco que cobre a tela e uma caixa de conteúdo centralizada com um botão para fechar.
+
+5. Lógica e Conteúdo (script.js):
+
+Estrutura de Dados: Crie um array de objetos em JavaScript para armazenar o conteúdo dos níveis do roadmap de JavaScript. Cada objeto deve ter:
+
+id: um número sequencial.
+
+type: 'lesson' ou 'boss'.
+
+title: o título da lição (ex: "O que são Variáveis?").
+
+content: o texto explicativo da lição.
+
+challenge (apenas para boss): Uma descrição do problema que o usuário precisa resolver com código.
+
+Exemplo da Estrutura de Dados:
+
+const javascriptRoadmap = [
+  { id: 1, type: 'lesson', title: 'Introdução ao JavaScript', content: 'JavaScript é uma linguagem de programação...' },
+  { id: 2, type: 'lesson', title: 'Variáveis', content: 'Variáveis são como caixas para guardar valores...' },
+  // ... mais 3 lições
+  { id: 5, type: 'boss', title: 'Chefão das Variáveis', content: 'Declare três variáveis...', challenge: 'Crie uma variável `nome`, uma `idade` e uma `cidade` e mostre uma frase com elas usando `console.log()`.' }
+];
+
+Funcionalidade:
+
+Adicione um event listener para cada nó no mapa (.level-node e .boss-node).
+
+Quando um nó for clicado, a janela modal deve aparecer.
+
+O conteúdo da modal (título, texto, desafio) deve ser preenchido dinamicamente com as informações do objeto correspondente no array javascriptRoadmap.
+
+Para os chefões, a modal deve incluir uma área de texto (<textarea>) para o usuário inserir o código e um botão "Executar". A funcionalidade de execução do código não precisa ser implementada agora, apenas a interface.
