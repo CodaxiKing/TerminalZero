@@ -1,0 +1,85 @@
+Função: Desenvolvedor Web Sênior com especialidade em UI/UX.
+
+Tarefa: Aprimore a index.html do projeto "CodeQuest". O objetivo é transformar a página inicial em um portal visualmente atraente que apresente os roadmaps (trilhas de aprendizado) disponíveis: Front-end, Back-end e Full-stack.
+
+Requisitos Detalhados:
+
+1. Estrutura HTML (index.html):
+
+Seção Herói (Topo): Mantenha a seção de boas-vindas, mas a refine.
+
+Título: "CodeQuest"
+
+Subtítulo: "Escolha sua trilha e comece sua aventura no mundo da programação!"
+
+Seção de Roadmaps: Crie uma nova seção abaixo da seção Herói.
+
+Um título para a seção, como "Trilhas de Aprendizado".
+
+Use um container flexbox ou grid para exibir três "cartões", um para cada roadmap (Front-end, Back-end, Full-stack).
+
+Cada cartão (<div class="roadmap-card">) será um link que levará para a página game.html.
+
+2. Conteúdo dos Roadmaps (Dentro dos Cartões):
+
+Cada cartão deve ter um título claro e uma lista ordenada das tecnologias principais, mostrando a ordem de aprendizado.
+
+Cartão 1: Front-end
+
+Título: Desenvolvedor Front-end
+
+Tecnologias:
+
+HTML5
+
+CSS3
+
+JavaScript
+
+React (ou Vue.js)
+
+Git & GitHub
+
+Cartão 2: Back-end
+
+Título: Desenvolvedor Back-end
+
+Tecnologias:
+
+JavaScript (com Node.js)
+
+Express.js
+
+Bancos de Dados (SQL & NoSQL)
+
+APIs RESTful
+
+Autenticação
+
+Cartão 3: Full-stack
+
+Título: Desenvolvedor Full-stack
+
+Descrição: "Combine o poder do Front-end e do Back-end para se tornar um desenvolvedor completo."
+
+Tecnologias: Mencione que esta trilha une os conhecimentos das duas anteriores.
+
+3. Estilização CSS (style.css):
+
+Estilo Geral: Crie um design coeso e bonito, misturando a estética pixel art com elementos de design moderno e limpo.
+
+Fontes: Utilize uma fonte pixelada para os títulos principais e uma fonte sans-serif limpa e legível para os textos e listas.
+
+Paleta de Cores: Use a mesma paleta de cores vibrante e divertida da página do jogo, mas aplique-a de forma mais sóbria na home. Use uma cor de fundo suave.
+
+Cartões de Roadmap (.roadmap-card):
+
+Dê a cada cartão bordas arredondadas e uma leve sombra (box-shadow) para criar um efeito de profundidade.
+
+Use um ícone ou uma pequena ilustração pixel art no topo de cada cartão para representar a área (ex: um monitor para front-end, um servidor para back-end).
+
+Adicione um efeito de hover: quando o mouse passar por cima, o cartão pode aumentar levemente de tamanho (transform: scale(1.05)) e a sombra pode ficar mais pronunciada.
+
+Organize o conteúdo dentro do cartão de forma clara, com bom espaçamento.
+
+Layout: A página deve ser totalmente responsiva, se adaptando bem a telas de desktop e de dispositivos móveis.

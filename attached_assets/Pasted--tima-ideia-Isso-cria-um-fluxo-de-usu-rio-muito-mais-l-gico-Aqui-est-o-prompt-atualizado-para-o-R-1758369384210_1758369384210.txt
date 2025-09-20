@@ -1,0 +1,82 @@
+Ótima ideia! Isso cria um fluxo de usuário muito mais lógico. Aqui está o prompt atualizado para o Replit, detalhando como implementar essa funcionalidade.
+
+Prompt para o Replit
+Função: Desenvolvedor Web Full-Stack Sênior
+
+Tarefa: Evoluir o projeto "CodeQuest" para que, ao selecionar uma tecnologia na página inicial, o mapa de níveis correspondente seja carregado dinamicamente na página do jogo.
+
+Contexto: Atualmente, temos uma homepage com os roadmaps e uma página de jogo com um mapa estático de JavaScript. Agora, vamos conectar as duas. O clique em uma tecnologia específica (como "JavaScript" ou "HTML5") na index.html deve levar o usuário para a game.html, exibindo o mapa de níveis exclusivo daquela tecnologia.
+
+Requisitos Detalhados:
+
+1. Alterações na Lógica de Links (index.html):
+
+Transforme cada item da lista de tecnologias dentro dos cartões de roadmap em um link (<a>).
+
+Cada link deve apontar para game.html, mas com um parâmetro de URL para identificar a tecnologia selecionada.
+
+Exemplo para o link de JavaScript: <a href="game.html?trilha=javascript">JavaScript</a>
+
+Exemplo para o link de HTML5: <a href="game.html?trilha=html">HTML5</a>
+
+E assim por diante para cada tecnologia clicável.
+
+2. Refatoração da Estrutura de Dados (script.js):
+
+Crie um objeto principal chamado trilhasDeAprendizado para organizar todos os roadmaps.
+
+Dentro deste objeto, cada tecnologia terá sua própria lista de níveis (lições e chefões).
+
+Exemplo da nova Estrutura de Dados:
+
+JavaScript
+
+const trilhasDeAprendizado = {
+  javascript: [
+    { id: 1, type: 'lesson', title: 'Introdução ao JavaScript', content: '...' },
+    { id: 2, type: 'lesson', title: 'Variáveis', content: '...' },
+    { id: 3, type: 'boss', title: 'Chefão das Variáveis', challenge: '...' }
+    // ... etc
+  ],
+  html: [
+    { id: 1, type: 'lesson', title: 'O que é HTML?', content: 'HTML significa HyperText Markup Language...' },
+    { id: 2, type: 'lesson', title: 'Tags e Elementos', content: '...' },
+    { id: 3, type: 'boss', title: 'Chefão da Estrutura', challenge: 'Crie a estrutura básica de uma página HTML com header, main e footer.' }
+    // ... etc
+  ],
+  css: [
+    // ... Níveis de CSS aqui
+  ]
+};
+3. Implementação da Lógica Dinâmica (script.js):
+
+Função para Ler Parâmetros da URL:
+
+Crie uma função que, assim que a página game.html carregar, leia o parâmetro trilha da URL para descobrir qual tecnologia foi selecionada.
+
+Função para Renderizar o Mapa:
+
+Crie uma função chamada renderizarMapa(niveis).
+
+Esta função deve receber uma lista de níveis (por exemplo, trilhasDeAprendizado.javascript) como argumento.
+
+Ela será responsável por limpar qualquer mapa existente e, em seguida, criar e adicionar os <div>s (.level-node e .boss-node) ao container do mapa dinamicamente, com base na lista de níveis fornecida.
+
+Lógica de Inicialização:
+
+Ao carregar a página game.html:
+
+Chame a função para obter o nome da trilha da URL (ex: "javascript").
+
+Use esse nome para selecionar a lista de níveis correta do objeto trilhasDeAprendizado.
+
+Passe essa lista para a sua nova função renderizarMapa() para construir o mapa na tela.
+
+Garanta que os event listeners para cliques nos nós sejam adicionados depois que eles forem criados dinamicamente.
+
+
+
+
+
+
+
