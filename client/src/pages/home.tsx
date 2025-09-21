@@ -12,12 +12,40 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative pt-16">
-      {/* Background cloud decoration */}
-      <div className="absolute top-12 left-1/2 transform -translate-x-1/2 z-0 opacity-30">
+      {/* Background cloud decorations */}
+      <div className="absolute top-8 left-0 z-0 opacity-20">
         <img 
           src={cloudBg} 
           alt="" 
-          className="w-80 md:w-96 h-auto pixelated cloud-float"
+          className="w-48 h-auto pixelated cloud-float-1"
+        />
+      </div>
+      <div className="absolute top-20 left-0 z-0 opacity-25">
+        <img 
+          src={cloudBg} 
+          alt="" 
+          className="w-32 h-auto pixelated cloud-float-2"
+        />
+      </div>
+      <div className="absolute top-32 left-0 z-0 opacity-30">
+        <img 
+          src={cloudBg} 
+          alt="" 
+          className="w-56 h-auto pixelated cloud-float-3"
+        />
+      </div>
+      <div className="absolute top-44 left-0 z-0 opacity-20">
+        <img 
+          src={cloudBg} 
+          alt="" 
+          className="w-40 h-auto pixelated cloud-float-4"
+        />
+      </div>
+      <div className="absolute top-56 left-0 z-0 opacity-35">
+        <img 
+          src={cloudBg} 
+          alt="" 
+          className="w-64 h-auto pixelated cloud-float-5"
         />
       </div>
       

@@ -39,8 +39,24 @@
   animation: float 4s ease-in-out infinite, pulse-logo 3s ease-in-out infinite;
 }
 
-.cloud-float {
-  animation: cloud-drift 20s linear infinite;
+.cloud-float-1 {
+  animation: cloud-drift 35s linear infinite;
+}
+
+.cloud-float-2 {
+  animation: cloud-drift 28s linear infinite 4s;
+}
+
+.cloud-float-3 {
+  animation: cloud-drift 32s linear infinite 10s;
+}
+
+.cloud-float-4 {
+  animation: cloud-drift 40s linear infinite 15s;
+}
+
+.cloud-float-5 {
+  animation: cloud-drift 24s linear infinite 8s;
 }
 
 /* Stardew Valley Utility Classes */
