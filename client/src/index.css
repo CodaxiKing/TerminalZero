@@ -4,6 +4,32 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-logo {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.float-animation {
+  animation: float 4s ease-in-out infinite, pulse-logo 3s ease-in-out infinite;
+}
+
 /* Stardew Valley Utility Classes */
 .gradient-primary {
   background: var(--gradient-primary);

@@ -1,4 +1,5 @@
 import { useLocation } from "wouter";
+import codingValleyLogo from "../assets/coding-valley-logo.png";
 
 export default function Navbar() {
   const [location, setLocation] = useLocation();
@@ -10,11 +11,14 @@ export default function Navbar() {
           {/* Logo */}
           <button
             onClick={() => setLocation("/")}
-            className="flex items-center space-x-2 text-xl font-bold text-foreground hover:text-primary transition-colors duration-200 shine-sweep"
+            className="flex items-center space-x-3 text-xl font-bold text-foreground hover:text-primary transition-colors duration-200 shine-sweep"
             data-testid="navbar-logo"
           >
-            <span className="text-2xl float-bob">🏡</span>
-            <span className="font-pixel text-lg">CodeQuest</span>
+            <img 
+              src={codingValleyLogo} 
+              alt="Coding Valley" 
+              className="h-10 w-auto pixelated float-bob"
+            />
           </button>
 
           {/* Navigation Links */}

@@ -7,6 +7,7 @@ import Navbar from "@/components/navbar";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Game from "@/pages/game";
+import pixelBackground from "./assets/pixel-landscape-bg.png";
 
 function Router() {
   return (
@@ -22,11 +23,15 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <div className="min-h-screen bg-background text-foreground">
+        <div 
+          className="min-h-screen bg-cover bg-center bg-no-repeat text-foreground"
+          style={{ backgroundImage: `url(${pixelBackground})` }}
+        >
           <Navbar />
           <main className="pt-16">
             <Router />
           </main>
+          
         </div>
         <Toaster />
       </TooltipProvider>
