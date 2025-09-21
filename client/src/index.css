@@ -26,8 +26,21 @@
   }
 }
 
+@keyframes cloud-drift {
+  0% {
+    transform: translateX(-120vw) translateY(0px);
+  }
+  100% {
+    transform: translateX(120vw) translateY(0px);
+  }
+}
+
 .float-animation {
   animation: float 4s ease-in-out infinite, pulse-logo 3s ease-in-out infinite;
+}
+
+.cloud-float {
+  animation: cloud-drift 20s linear infinite;
 }
 
 /* Stardew Valley Utility Classes */

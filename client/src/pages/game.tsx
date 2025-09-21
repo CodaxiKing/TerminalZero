@@ -149,7 +149,7 @@ export default function Game() {
       <div className="bg-trees"></div>
       
       {/* Game header */}
-      <div className="absolute top-2 md:top-4 left-2 md:left-4 right-2 md:right-4 z-10">
+      <div className="absolute top-20 md:top-24 left-2 md:left-4 right-2 md:right-4 z-10">
         <div className="wood-frame px-shadow-2">
           <div className="flex items-center justify-between p-4">
             <div>
@@ -162,7 +162,7 @@ export default function Game() {
       </div>
 
       {/* Game Map */}
-      <div className="relative w-full h-screen pt-16 md:pt-24 overflow-hidden" data-testid="game-map">
+      <div className="relative w-full h-screen pt-32 md:pt-36 overflow-hidden" data-testid="game-map">
         {/* Forest background elements */}
         <div className="absolute inset-0 overflow-hidden">
           {/* Trees */}
@@ -251,7 +251,7 @@ export default function Game() {
       {/* Back to menu button */}
       <button 
         onClick={backToMenu}
-        className="absolute top-2 md:top-4 right-2 md:right-4 z-20 pixel-btn-brown text-sm font-pixel hover:glow-primary transition-all duration-200 touch-manipulation px-shadow-1"
+        className="absolute top-20 md:top-24 right-2 md:right-4 z-20 pixel-btn-brown text-sm font-pixel hover:glow-primary transition-all duration-200 touch-manipulation px-shadow-1"
         data-testid="button-back-to-menu"
       >
         ← Voltar

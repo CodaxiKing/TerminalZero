@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Navbar from "@/components/navbar";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
+import Trails from "@/pages/trails";
 import Game from "@/pages/game";
 import pixelBackground from "./assets/pixel-landscape-bg.png";
 
@@ -13,6 +14,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/trails" component={Trails} />
       <Route path="/game" component={Game} />
       <Route component={NotFound} />
     </Switch>
@@ -28,7 +30,7 @@ function App() {
           style={{ backgroundImage: `url(${pixelBackground})` }}
         >
           <Navbar />
-          <main className="pt-16">
+          <main>
             <Router />
           </main>
           
