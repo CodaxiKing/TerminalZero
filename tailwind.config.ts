@@ -66,7 +66,7 @@ export default {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
         mono: ["var(--font-mono)"],
-        pixel: ['"Press Start 2P"', 'monospace'],
+        pixel: ["var(--font-pixel)"],
       },
       keyframes: {
         "accordion-down": {

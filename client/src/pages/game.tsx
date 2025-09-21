@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
-import StarField from "@/components/star-field";
 import LessonModal from "@/components/lesson-modal";
+import { Hotbar, StatusBars, CurrencyBox } from "@/components/stardew";
 import { trilhasDeAprendizado, javascriptRoadmap, Lesson } from "@/data/javascript-roadmap";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -11,6 +11,7 @@ export default function Game() {
   const [completedLessons, setCompletedLessons] = useState<Set<number>>(new Set());
   const [currentRoadmap, setCurrentRoadmap] = useState<Lesson[]>(javascriptRoadmap);
   const [currentTech, setCurrentTech] = useState<string>("javascript");
+  const [timeOfDay, setTimeOfDay] = useState<'dawn' | 'day' | 'dusk' | 'night'>('day');
 
   // Função para ler parâmetros da URL
   const getURLParams = () => {
@@ -33,6 +34,19 @@ export default function Game() {
   useEffect(() => {
     const trilha = getURLParams();
     renderizarMapa(trilha);
+  }, []);
+
+  // Sistema de tempo do dia (muda a cada 30 segundos para demonstração)
+  useEffect(() => {
+    const times: Array<'dawn' | 'day' | 'dusk' | 'night'> = ['dawn', 'day', 'dusk', 'night'];
+    let currentIndex = 1; // Inicia no dia
+    
+    const interval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % times.length;
+      setTimeOfDay(times[currentIndex]);
+    }, 30000); // Muda a cada 30 segundos
+
+    return () => clearInterval(interval);
   }, []);
 
   const backToMenu = () => {
@@ -128,14 +142,22 @@ export default function Game() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-auto bg-gradient-to-br from-background via-background to-background/95">
-      <StarField />
+    <div className={`min-h-screen relative overflow-auto time-${timeOfDay}`}>
+      {/* Stardew Valley Farm Background */}
+      <div className="bg-sky"></div>
+      <div className="bg-mountains"></div>
+      <div className="bg-trees"></div>
       
       {/* Game header */}
       <div className="absolute top-2 md:top-4 left-2 md:left-4 right-2 md:right-4 z-10">
-        <div className="glass rounded-xl p-4 md:p-6 shadow-xl">
-          <h2 className="text-primary text-lg md:text-xl font-bold">🗺️ Roadmap {techTitles[currentTech] || currentTech}</h2>
-          <p className="text-muted-foreground text-sm mt-2">Clique nos pontos para começar sua jornada!</p>
+        <div className="wood-frame px-shadow-2">
+          <div className="flex items-center justify-between p-4">
+            <div>
+              <h2 className="text-primary text-lg md:text-xl font-pixel font-bold">🌳 Roadmap {techTitles[currentTech] || currentTech}</h2>
+              <p className="text-muted-foreground text-sm mt-1 font-sans">Clique nos pontos para começar sua jornada!</p>
+            </div>
+            <CurrencyBox amount={completedLessons.size * 100} type="xp" label="XP" animated />
+          </div>
         </div>
       </div>
 
@@ -156,7 +178,7 @@ export default function Game() {
         {/* Adventure path - simplified for mobile */}
         <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
           <path 
-            className="game-path" 
+            className="dirt-path" 
             d={isMobile 
               ? "M 60 460 Q 120 400 180 420 T 280 380 T 380 340 T 60 280 T 180 240" 
               : "M 100 500 Q 200 400 300 450 T 500 400 T 700 350 T 900 300 T 1100 250"
@@ -176,9 +198,9 @@ export default function Game() {
           return (
             <button
               key={lesson.id}
-              className={`absolute rounded cursor-pointer focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 ${
-                isBoss ? 'boss-node' : 'level-node'
-              } ${isCompleted ? 'completed' : ''}`}
+              className={`absolute cursor-pointer focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 signpost px-shadow-2 ${
+                isBoss ? 'w-20 h-16' : 'w-16 h-12'
+              } ${isCompleted ? 'px-outline-gold' : ''}`}
               style={{ 
                 left: `${position.left}px`, 
                 top: `${position.top}px`, 
@@ -195,16 +217,41 @@ export default function Game() {
               tabIndex={0}
               data-testid={`node-level-${index + 1}`}
             >
-              <div className="node-label font-pixel">{levelLabels[index]}</div>
+              <div className="node-label font-pixel px-shadow-1">{levelLabels[index]}</div>
+              {/* Dust effect on hover/click */}
+              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <span className="text-xs">💨</span>
+              </div>
             </button>
           );
         })}
       </div>
 
+      {/* Status Bars and Hotbar */}
+      <div className="absolute bottom-4 left-4 z-20">
+        <StatusBars 
+          health={{ current: Math.max(50, 100 - (currentRoadmap.length - completedLessons.size) * 10), max: 100 }}
+          energy={{ current: Math.max(30, 100 - (currentRoadmap.length - completedLessons.size) * 8), max: 100 }}
+        />
+      </div>
+
+      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
+        <Hotbar 
+          items={[
+            { name: "Lição", icon: "📚", count: completedLessons.size },
+            { name: "Certificado", icon: "🏆" },
+            { name: "Dica", icon: "💡" },
+            { name: "Progresso", icon: "📊" },
+            { name: "Conquista", icon: "🎖️" },
+          ]}
+          selectedIndex={0}
+        />
+      </div>
+
       {/* Back to menu button */}
       <button 
         onClick={backToMenu}
-        className="absolute top-2 md:top-4 right-2 md:right-4 z-20 glass px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-200 hover:shadow-lg touch-manipulation"
+        className="absolute top-2 md:top-4 right-2 md:right-4 z-20 pixel-btn-brown text-sm font-pixel hover:glow-primary transition-all duration-200 touch-manipulation px-shadow-1"
         data-testid="button-back-to-menu"
       >
         ← Voltar

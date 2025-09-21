@@ -1,15 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Utility classes for Rocketseat-style design */
+/* Stardew Valley Utility Classes */
 .gradient-primary {
   background: var(--gradient-primary);
 }
 
 .gradient-card {
   background: var(--gradient-card);
+}
+
+.gradient-wood {
+  background: var(--gradient-wood);
 }
 
 .glow-primary {
@@ -20,129 +25,548 @@
   box-shadow: var(--glow-accent);
 }
 
-.gradient-border {
-  position: relative;
+/* Wood Panel Component */
+.wood-panel {
+  background: var(--gradient-wood);
+  border: 3px solid hsl(var(--border));
   border-radius: var(--radius);
-  padding: 2px;
-  background: linear-gradient(135deg, hsl(262, 83%, 70%) 0%, hsl(280, 75%, 65%) 100%);
+  position: relative;
+  box-shadow: 
+    inset 2px 2px 4px hsl(26, 48%, 38%),
+    inset -2px -2px 4px hsl(26, 48%, 23%),
+    var(--shadow-md);
 }
 
-.gradient-border > * {
+.wood-panel::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    hsl(26, 48%, 38% / 0.3) 50%,
+    transparent 55%
+  );
+  background-size: 12px 12px;
+  border-radius: calc(var(--radius) - 3px);
+  pointer-events: none;
+}
+
+/* Parchment Card Component */
+.parchment-card {
   background: hsl(var(--card));
-  border-radius: calc(var(--radius) - 2px);
+  border: 2px solid hsl(28, 30%, 60%);
+  border-radius: var(--radius);
+  position: relative;
+  box-shadow: var(--shadow-lg);
+  padding: 1rem;
 }
 
-.glass {
-  background: hsl(var(--card) / 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid hsl(var(--border) / 0.5);
+.parchment-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: 
+    radial-gradient(circle at 20% 20%, transparent 2px, hsl(28, 30%, 60%) 2px, hsl(28, 30%, 60%) 3px, transparent 3px),
+    radial-gradient(circle at 80% 20%, transparent 2px, hsl(28, 30%, 60%) 2px, hsl(28, 30%, 60%) 3px, transparent 3px),
+    radial-gradient(circle at 20% 80%, transparent 2px, hsl(28, 30%, 60%) 2px, hsl(28, 30%, 60%) 3px, transparent 3px),
+    radial-gradient(circle at 80% 80%, transparent 2px, hsl(28, 30%, 60%) 2px, hsl(28, 30%, 60%) 3px, transparent 3px);
+  border-radius: var(--radius);
+  z-index: -1;
 }
 
-.navbar-blur {
-  background: hsl(var(--card) / 0.9);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid hsl(var(--border) / 0.5);
+/* Pixel Button Brown (Stardew Style) */
+.pixel-btn-brown {
+  background: linear-gradient(145deg, hsl(26, 48%, 38%) 0%, hsl(26, 48%, 28%) 100%);
+  border: 3px solid hsl(26, 48%, 20%);
+  color: hsl(var(--card));
+  font-family: var(--font-pixel);
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  box-shadow: 
+    inset 2px 2px 0 hsl(26, 48%, 48%),
+    inset -2px -2px 0 hsl(26, 48%, 18%),
+    0 4px 8px rgba(0,0,0,0.3);
+  text-shadow: 1px 1px 0 hsl(26, 48%, 15%);
+}
+
+.pixel-btn-brown:focus-visible {
+  outline: 3px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+.pixel-btn-brown:hover {
+  background: linear-gradient(145deg, hsl(26, 48%, 43%) 0%, hsl(26, 48%, 33%) 100%);
+  transform: translateY(-2px);
+  box-shadow: 
+    inset 2px 2px 0 hsl(26, 48%, 53%),
+    inset -2px -2px 0 hsl(26, 48%, 23%),
+    0 6px 12px rgba(0,0,0,0.4);
+}
+
+.pixel-btn-brown:active {
+  transform: translateY(1px);
+  box-shadow: 
+    inset 2px 2px 0 hsl(26, 48%, 23%),
+    inset -2px -2px 0 hsl(26, 48%, 48%),
+    0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Dirt Path */
+.dirt-path {
+  stroke: hsl(28, 30%, 35%);
+  stroke-width: 8;
+  fill: none;
+  stroke-linecap: round;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Signpost Node */
+.signpost {
+  position: relative;
+  background: linear-gradient(145deg, hsl(26, 48%, 43%) 0%, hsl(26, 48%, 33%) 100%);
+  border: 3px solid hsl(26, 48%, 25%);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 
+    inset 1px 1px 0 hsl(26, 48%, 53%),
+    inset -1px -1px 0 hsl(26, 48%, 23%),
+    0 4px 8px rgba(0,0,0,0.3);
+}
+
+.signpost::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 16px;
+  background: linear-gradient(145deg, hsl(26, 48%, 38%) 0%, hsl(26, 48%, 28%) 100%);
+  border: 1px solid hsl(26, 48%, 20%);
+  border-radius: 0 0 2px 2px;
+}
+
+.signpost:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 
+    inset 1px 1px 0 hsl(26, 48%, 58%),
+    inset -1px -1px 0 hsl(26, 48%, 28%),
+    0 0 20px hsl(44, 86%, 63%, 0.6),
+    0 6px 16px rgba(0,0,0,0.4);
+}
+
+.signpost:focus-visible {
+  outline: 3px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Parallax Background Layers */
+.bg-sky {
+  background: linear-gradient(180deg, hsl(197, 57%, 74%) 0%, hsl(197, 57%, 82%) 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -30;
+}
+
+.bg-mountains {
+  background: linear-gradient(180deg, transparent 0%, hsl(108, 20%, 60%) 70%, hsl(108, 20%, 50%) 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -20;
+  transform: translateY(20px);
+}
+
+.bg-trees {
+  background: 
+    radial-gradient(ellipse at 20% 90%, hsl(108, 41%, 44%) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 90%, hsl(108, 41%, 40%) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 90%, hsl(108, 41%, 44%) 0%, transparent 50%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  transform: translateY(40px);
+}
+
+/* Stardew Valley Pixel Utilities */
+.px-shadow-1 {
+  box-shadow: 
+    1px 1px 0 rgba(0,0,0,0.6),
+    2px 2px 0 rgba(0,0,0,0.3);
+}
+
+.px-shadow-2 {
+  box-shadow: 
+    1px 1px 0 rgba(0,0,0,0.8),
+    2px 2px 0 rgba(0,0,0,0.6),
+    3px 3px 0 rgba(0,0,0,0.4);
+}
+
+.px-shadow-3 {
+  box-shadow: 
+    1px 1px 0 rgba(0,0,0,0.9),
+    2px 2px 0 rgba(0,0,0,0.7),
+    3px 3px 0 rgba(0,0,0,0.5),
+    4px 4px 0 rgba(0,0,0,0.3);
+}
+
+.px-outline-gold {
+  outline: 2px solid hsl(44, 86%, 63%);
+  outline-offset: 1px;
+}
+
+.px-outline-white {
+  outline: 2px solid hsl(39, 55%, 90%);
+  outline-offset: 1px;
+}
+
+.px-outline-brown {
+  outline: 2px solid hsl(26, 48%, 25%);
+  outline-offset: 1px;
+}
+
+/* Wood Frame with Nail Heads */
+.wood-frame {
+  position: relative;
+  background: var(--gradient-wood);
+  border: 4px solid hsl(26, 48%, 20%);
+  border-radius: 8px;
+  box-shadow: 
+    inset 2px 2px 4px hsl(26, 48%, 40%),
+    inset -2px -2px 4px hsl(26, 48%, 15%),
+    var(--shadow-lg);
+}
+
+.wood-frame::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  right: 6px;
+  bottom: 6px;
+  background: 
+    /* Nail heads at corners */
+    radial-gradient(circle at 8px 8px, hsl(0, 0%, 20%) 2px, transparent 3px),
+    radial-gradient(circle at calc(100% - 8px) 8px, hsl(0, 0%, 20%) 2px, transparent 3px),
+    radial-gradient(circle at 8px calc(100% - 8px), hsl(0, 0%, 20%) 2px, transparent 3px),
+    radial-gradient(circle at calc(100% - 8px) calc(100% - 8px), hsl(0, 0%, 20%) 2px, transparent 3px),
+    /* Wood grain pattern */
+    linear-gradient(45deg, 
+      transparent 45%, 
+      hsl(26, 48%, 38% / 0.3) 50%, 
+      transparent 55%
+    );
+  background-size: 16px 16px, 16px 16px, 16px 16px, 16px 16px, 12px 12px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+/* Rope Corners */
+.rope-corners {
+  position: relative;
+}
+
+.rope-corners::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  background: 
+    /* Rope pattern */
+    conic-gradient(from 45deg at 12px 12px, 
+      hsl(28, 30%, 45%) 0deg 90deg, 
+      hsl(28, 30%, 35%) 90deg 180deg,
+      hsl(28, 30%, 45%) 180deg 270deg, 
+      hsl(28, 30%, 35%) 270deg 360deg
+    ),
+    conic-gradient(from 45deg at calc(100% - 12px) 12px, 
+      hsl(28, 30%, 45%) 0deg 90deg, 
+      hsl(28, 30%, 35%) 90deg 180deg,
+      hsl(28, 30%, 45%) 180deg 270deg, 
+      hsl(28, 30%, 35%) 270deg 360deg
+    ),
+    conic-gradient(from 45deg at 12px calc(100% - 12px), 
+      hsl(28, 30%, 45%) 0deg 90deg, 
+      hsl(28, 30%, 35%) 90deg 180deg,
+      hsl(28, 30%, 45%) 180deg 270deg, 
+      hsl(28, 30%, 35%) 270deg 360deg
+    ),
+    conic-gradient(from 45deg at calc(100% - 12px) calc(100% - 12px), 
+      hsl(28, 30%, 45%) 0deg 90deg, 
+      hsl(28, 30%, 35%) 90deg 180deg,
+      hsl(28, 30%, 45%) 180deg 270deg, 
+      hsl(28, 30%, 35%) 270deg 360deg
+    );
+  background-size: 24px 24px;
+  background-repeat: no-repeat;
+  background-position: 
+    top left, 
+    top right, 
+    bottom left, 
+    bottom right;
+  border-radius: 12px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Stardew Valley Animations */
+@keyframes float-bob {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+@keyframes tilt-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(1deg); }
+  75% { transform: rotate(-1deg); }
+}
+
+@keyframes shine-sweep {
+  0% { transform: translateX(-100%) rotate(35deg); }
+  100% { transform: translateX(200%) rotate(35deg); }
+}
+
+.float-bob {
+  animation: float-bob 2s ease-in-out infinite;
+}
+
+.tilt-wiggle {
+  animation: tilt-wiggle 0.8s ease-in-out infinite;
+}
+
+.shine-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-sweep::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 100%;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(255,255,255,0.4), 
+    transparent
+  );
+  transform: translateX(-100%) rotate(35deg);
+  transition: transform 0.6s ease;
+}
+
+.shine-sweep:hover::before {
+  animation: shine-sweep 0.6s ease;
+}
+
+/* Time of Day System */
+.time-dawn {
+  position: relative;
+}
+
+.time-dawn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, hsl(25, 50%, 85%) 0%, transparent 50%);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.time-day {
+  /* Bright daylight - no overlay */
+}
+
+.time-dusk {
+  position: relative;
+}
+
+.time-dusk::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, hsl(15, 60%, 70%) 0%, hsl(280, 30%, 40%) 100%);
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.time-night {
+  position: relative;
+}
+
+.time-night::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, hsl(220, 50%, 20%) 0%, hsl(220, 80%, 10%) 100%);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .float-bob,
+  .tilt-wiggle,
+  .shine-sweep::before {
+    animation: none;
+  }
+  
+  .shine-sweep:hover::before {
+    animation: none;
+  }
+}
+
+/* Remove old glass/navbar blur styles - replace with wood */
+.navbar-wood {
+  background: var(--gradient-wood);
+  border-bottom: 3px solid hsl(var(--border));
+  box-shadow: 
+    inset 0 1px 0 hsl(26, 48%, 40%),
+    0 4px 8px rgba(0,0,0,0.2);
 }
 
 :root {
-  --background: hsl(240, 7%, 7%);
-  --foreground: hsl(0, 0%, 96%);
-  --card: hsl(240, 6%, 12%);
-  --card-foreground: hsl(0, 0%, 96%);
-  --popover: hsl(240, 6%, 12%);
-  --popover-foreground: hsl(0, 0%, 96%);
-  --primary: hsl(262, 83%, 70%);
-  --primary-foreground: hsl(245, 50%, 10%);
-  --secondary: hsl(240, 5%, 16%);
-  --secondary-foreground: hsl(0, 0%, 90%);
-  --muted: hsl(240, 5%, 16%);
-  --muted-foreground: hsl(240, 5%, 50%);
-  --accent: hsl(280, 75%, 65%);
-  --accent-foreground: hsl(245, 50%, 10%);
-  --destructive: hsl(0, 62%, 60%);
-  --destructive-foreground: hsl(0, 0%, 98%);
-  --border: hsl(240, 5%, 20%);
-  --input: hsl(240, 5%, 16%);
-  --ring: hsl(262, 83%, 70%);
-  --chart-1: hsl(262, 83%, 70%);
-  --chart-2: hsl(280, 75%, 65%);
-  --chart-3: hsl(300, 70%, 60%);
-  --chart-4: hsl(320, 65%, 55%);
-  --chart-5: hsl(340, 60%, 50%);
-  --sidebar: hsl(240, 6%, 12%);
-  --sidebar-foreground: hsl(0, 0%, 96%);
-  --sidebar-primary: hsl(262, 83%, 70%);
-  --sidebar-primary-foreground: hsl(245, 50%, 10%);
-  --sidebar-accent: hsl(280, 75%, 65%);
-  --sidebar-accent-foreground: hsl(245, 50%, 10%);
-  --sidebar-border: hsl(240, 5%, 20%);
-  --sidebar-ring: hsl(262, 83%, 70%);
+  /* Stardew Valley Color Palette - Light Mode */
+  --background: hsl(197, 57%, 74%); /* Sky blue */
+  --foreground: hsl(28, 30%, 25%); /* Dark brown text */
+  --card: hsl(39, 55%, 86%); /* Paper/parchment */
+  --card-foreground: hsl(28, 30%, 25%); /* Dark brown on paper */
+  --popover: hsl(26, 48%, 33%); /* Wood brown */
+  --popover-foreground: hsl(39, 55%, 86%); /* Light text on wood */
+  --primary: hsl(44, 86%, 63%); /* Golden yellow */
+  --primary-foreground: hsl(28, 30%, 25%); /* Dark brown on gold */
+  --secondary: hsl(108, 41%, 64%); /* Grass green */
+  --secondary-foreground: hsl(28, 30%, 25%); /* Dark brown on green */
+  --muted: hsl(108, 20%, 85%); /* Light green/beige */
+  --muted-foreground: hsl(28, 30%, 50%); /* Medium brown */
+  --accent: hsl(44, 86%, 63%); /* Gold accent */
+  --accent-foreground: hsl(28, 30%, 25%); /* Dark brown on gold */
+  --destructive: hsl(5, 70%, 56%); /* Red for errors */
+  --destructive-foreground: hsl(39, 55%, 86%); /* Light text on red */
+  --border: hsl(28, 30%, 41%); /* Soil brown borders */
+  --input: hsl(39, 55%, 90%); /* Light paper for inputs */
+  --ring: hsl(44, 86%, 63%); /* Gold focus ring */
+  --chart-1: hsl(44, 86%, 63%); /* Gold */
+  --chart-2: hsl(108, 41%, 64%); /* Green */
+  --chart-3: hsl(26, 48%, 33%); /* Brown */
+  --chart-4: hsl(197, 57%, 74%); /* Sky blue */
+  --chart-5: hsl(5, 70%, 56%); /* Red */
+  --sidebar: hsl(26, 48%, 33%); /* Wood brown */
+  --sidebar-foreground: hsl(39, 55%, 86%); /* Light text */
+  --sidebar-primary: hsl(44, 86%, 63%); /* Gold */
+  --sidebar-primary-foreground: hsl(28, 30%, 25%); /* Dark brown */
+  --sidebar-accent: hsl(108, 41%, 64%); /* Green */
+  --sidebar-accent-foreground: hsl(28, 30%, 25%); /* Dark brown */
+  --sidebar-border: hsl(28, 30%, 41%); /* Soil brown */
+  --sidebar-ring: hsl(44, 86%, 63%); /* Gold */
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-serif: Georgia, serif;
   --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
-  --font-pixel: "Press Start 2P", monospace;
-  --radius: 12px;
-  --gradient-primary: linear-gradient(135deg, hsl(262, 83%, 70%) 0%, hsl(280, 75%, 65%) 100%);
-  --gradient-card: linear-gradient(135deg, hsl(240, 6%, 12%) 0%, hsl(240, 5%, 16%) 100%);
-  --glow-primary: 0 0 20px hsl(262, 83%, 70%, 0.5);
-  --glow-accent: 0 0 20px hsl(280, 75%, 65%, 0.5);
-  --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --font-pixel: "VT323", "Press Start 2P", monospace;
+  --radius: 8px;
+  --gradient-primary: linear-gradient(135deg, hsl(44, 86%, 63%) 0%, hsl(44, 86%, 53%) 100%);
+  --gradient-card: linear-gradient(135deg, hsl(39, 55%, 86%) 0%, hsl(39, 55%, 80%) 100%);
+  --gradient-wood: linear-gradient(135deg, hsl(26, 48%, 33%) 0%, hsl(26, 48%, 28%) 100%);
+  --glow-primary: 0 0 20px hsl(44, 86%, 63%, 0.5);
+  --glow-accent: 0 0 20px hsl(108, 41%, 64%, 0.5);
+  --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.1);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.1);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.15), 0 1px 2px -1px rgb(0 0 0 / 0.15);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.15);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.15), 0 2px 4px -2px rgb(0 0 0 / 0.15);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.15), 0 4px 6px -4px rgb(0 0 0 / 0.15);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.15), 0 8px 10px -6px rgb(0 0 0 / 0.15);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.3);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 }
 
 .dark {
-  --background: hsl(0, 0%, 0%);
-  --foreground: hsl(200, 6.6667%, 91.1765%);
-  --card: hsl(228, 9.8039%, 10%);
-  --card-foreground: hsl(0, 0%, 85.0980%);
-  --popover: hsl(0, 0%, 0%);
-  --popover-foreground: hsl(200, 6.6667%, 91.1765%);
-  --primary: hsl(203.7736, 87.6033%, 52.5490%);
-  --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(195.0000, 15.3846%, 94.9020%);
-  --secondary-foreground: hsl(210, 25%, 7.8431%);
-  --muted: hsl(0, 0%, 9.4118%);
-  --muted-foreground: hsl(210, 3.3898%, 46.2745%);
-  --accent: hsl(205.7143, 70%, 7.8431%);
-  --accent-foreground: hsl(203.7736, 87.6033%, 52.5490%);
-  --destructive: hsl(356.3033, 90.5579%, 54.3137%);
-  --destructive-foreground: hsl(0, 0%, 100%);
-  --border: hsl(210, 5.2632%, 14.9020%);
-  --input: hsl(207.6923, 27.6596%, 18.4314%);
-  --ring: hsl(202.8169, 89.1213%, 53.1373%);
-  --chart-1: hsl(203.8863, 88.2845%, 53.1373%);
-  --chart-2: hsl(159.7826, 100%, 36.0784%);
-  --chart-3: hsl(42.0290, 92.8251%, 56.2745%);
-  --chart-4: hsl(147.1429, 78.5047%, 41.9608%);
-  --chart-5: hsl(341.4894, 75.2000%, 50.9804%);
-  --sidebar: hsl(228, 9.8039%, 10%);
-  --sidebar-foreground: hsl(0, 0%, 85.0980%);
-  --sidebar-primary: hsl(202.8169, 89.1213%, 53.1373%);
-  --sidebar-primary-foreground: hsl(0, 0%, 100%);
-  --sidebar-accent: hsl(205.7143, 70%, 7.8431%);
-  --sidebar-accent-foreground: hsl(203.7736, 87.6033%, 52.5490%);
-  --sidebar-border: hsl(205.7143, 15.7895%, 26.0784%);
-  --sidebar-ring: hsl(202.8169, 89.1213%, 53.1373%);
-  --font-sans: "Press Start 2P", monospace;
+  /* Stardew Valley Color Palette - Dark Mode (Evening/Night) */
+  --background: hsl(220, 26%, 14%); /* Dark blue night sky */
+  --foreground: hsl(39, 55%, 86%); /* Light paper color for text */
+  --card: hsl(26, 48%, 20%); /* Dark wood */
+  --card-foreground: hsl(39, 55%, 86%); /* Light text on dark wood */
+  --popover: hsl(26, 48%, 15%); /* Darker wood */
+  --popover-foreground: hsl(39, 55%, 86%); /* Light text */
+  --primary: hsl(44, 86%, 63%); /* Golden yellow (unchanged) */
+  --primary-foreground: hsl(28, 30%, 25%); /* Dark brown on gold */
+  --secondary: hsl(108, 41%, 40%); /* Darker grass green */
+  --secondary-foreground: hsl(39, 55%, 86%); /* Light text on green */
+  --muted: hsl(220, 26%, 20%); /* Dark muted background */
+  --muted-foreground: hsl(39, 55%, 70%); /* Muted light text */
+  --accent: hsl(44, 86%, 63%); /* Gold accent (unchanged) */
+  --accent-foreground: hsl(28, 30%, 25%); /* Dark brown on gold */
+  --destructive: hsl(5, 70%, 56%); /* Red (unchanged) */
+  --destructive-foreground: hsl(39, 55%, 86%); /* Light text on red */
+  --border: hsl(28, 30%, 25%); /* Dark brown borders */
+  --input: hsl(26, 48%, 25%); /* Dark wood for inputs */
+  --ring: hsl(44, 86%, 63%); /* Gold focus ring */
+  --chart-1: hsl(44, 86%, 63%); /* Gold */
+  --chart-2: hsl(108, 41%, 40%); /* Dark green */
+  --chart-3: hsl(26, 48%, 33%); /* Brown */
+  --chart-4: hsl(220, 26%, 30%); /* Dark blue */
+  --chart-5: hsl(5, 70%, 56%); /* Red */
+  --sidebar: hsl(26, 48%, 15%); /* Darker wood */
+  --sidebar-foreground: hsl(39, 55%, 86%); /* Light text */
+  --sidebar-primary: hsl(44, 86%, 63%); /* Gold */
+  --sidebar-primary-foreground: hsl(28, 30%, 25%); /* Dark brown */
+  --sidebar-accent: hsl(108, 41%, 40%); /* Dark green */
+  --sidebar-accent-foreground: hsl(39, 55%, 86%); /* Light text */
+  --sidebar-border: hsl(28, 30%, 25%); /* Dark brown */
+  --sidebar-ring: hsl(44, 86%, 63%); /* Gold */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-serif: Georgia, serif;
-  --font-mono: "Press Start 2P", monospace;
-  --radius: 4px;
-  --shadow-2xs: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
-  --shadow-xs: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
-  --shadow-sm: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 1px 2px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
-  --shadow: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 1px 2px -2px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
-  --shadow-md: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 2px 4px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
-  --shadow-lg: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 4px 6px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
-  --shadow-xl: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00), 0px 8px 10px -1px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
-  --shadow-2xl: 0px 2px 0px 0px hsl(202.8169, 89.1213%, 53.1373%, 0.00);
+  --font-mono: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  --font-pixel: "VT323", "Press Start 2P", monospace;
+  --radius: 8px;
+  --gradient-primary: linear-gradient(135deg, hsl(44, 86%, 63%) 0%, hsl(44, 86%, 53%) 100%);
+  --gradient-card: linear-gradient(135deg, hsl(26, 48%, 20%) 0%, hsl(26, 48%, 15%) 100%);
+  --gradient-wood: linear-gradient(135deg, hsl(26, 48%, 15%) 0%, hsl(26, 48%, 10%) 100%);
+  --glow-primary: 0 0 20px hsl(44, 86%, 63%, 0.5);
+  --glow-accent: 0 0 20px hsl(108, 41%, 40%, 0.5);
+  --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.4);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.5);
 }
 
 @layer base {
@@ -155,8 +579,22 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
-    background: linear-gradient(180deg, hsl(200, 80%, 60%) 0%, hsl(120, 60%, 40%) 100%);
+    background: 
+      linear-gradient(180deg, hsl(var(--background)) 0%, hsl(108, 41%, 64%) 100%);
     min-height: 100vh;
+    position: relative;
+  }
+  
+  /* Pixel-perfect image rendering for game elements */
+  .pixel-art {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Smooth rendering for UI text */
+  .smooth-text {
+    image-rendering: auto;
   }
 }
 
@@ -187,63 +625,10 @@
       0 2px 4px rgba(0,0,0,0.3);
   }
 
-  .level-node {
-    width: 48px;
-    height: 48px;
-    background: linear-gradient(145deg, hsl(30, 60%, 55%) 0%, hsl(30, 60%, 45%) 100%);
-    border: 3px solid hsl(30, 60%, 35%);
-    position: relative;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  }
-
-  .level-node::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-bottom: 12px solid hsl(0, 70%, 50%);
-  }
-
-  .level-node:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px hsl(42, 100%, 60%);
-  }
-
-  .level-node.completed {
-    box-shadow: 0 0 20px hsl(120, 60%, 50%);
-    border: 3px solid hsl(120, 60%, 50%);
-  }
-
-  .boss-node {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(145deg, hsl(272, 40%, 45%) 0%, hsl(272, 40%, 35%) 100%);
-    border: 4px solid hsl(272, 40%, 25%);
-    position: relative;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-  }
-
-  .boss-node::before {
-    content: '👑';
-    position: absolute;
-    top: -15px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 20px;
-  }
-
-  .boss-node:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px hsl(272, 60%, 65%);
+  /* Legacy node classes - kept for backward compatibility but replaced with .signpost */
+  .level-node, .boss-node {
+    /* Deprecated - use .signpost instead */
+    opacity: 0.8;
   }
 
   .modal-backdrop {
@@ -260,18 +645,10 @@
       0 8px 32px rgba(0,0,0,0.5);
   }
 
+  /* Legacy path class - kept for backward compatibility but replaced with .dirt-path */
   .game-path {
-    stroke: hsl(30, 60%, 45%);
-    stroke-width: 8;
-    fill: none;
-    stroke-linecap: round;
-    stroke-dasharray: 20 10;
-    animation: pathMove 3s linear infinite;
-  }
-
-  @keyframes pathMove {
-    0% { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: 30; }
+    /* Deprecated - use .dirt-path instead */
+    opacity: 0.8;
   }
 
   .node-label {
