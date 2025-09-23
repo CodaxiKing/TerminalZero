@@ -50,7 +50,7 @@ export default function Game() {
   }, []);
 
   const backToMenu = () => {
-    setLocation("/");
+    setLocation("/trails");
   };
 
   const openLesson = (lessonIndex: number) => {
@@ -99,14 +99,14 @@ export default function Game() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [currentLessonIndex]);
 
-  // Mobile-responsive level positions
+  // Mobile-responsive level positions (using percentages for better responsiveness)
   const levelPositions = [
-    { left: 85, top: 485, mobileLeft: 50, mobileTop: 450 },
-    { left: 285, top: 435, mobileLeft: 150, mobileTop: 400 },
-    { left: 485, top: 385, mobileLeft: 250, mobileTop: 350 },
-    { left: 685, top: 335, mobileLeft: 350, mobileTop: 300 },
-    { left: 885, top: 285, mobileLeft: 50, mobileTop: 250 },
-    { left: 1065, top: 235, mobileLeft: 150, mobileTop: 200 },
+    { left: 5, top: 75, mobileLeft: 10, mobileTop: 85 },
+    { left: 20, top: 65, mobileLeft: 30, mobileTop: 75 },
+    { left: 35, top: 55, mobileLeft: 50, mobileTop: 65 },
+    { left: 50, top: 45, mobileLeft: 70, mobileTop: 55 },
+    { left: 65, top: 35, mobileLeft: 10, mobileTop: 45 },
+    { left: 80, top: 25, mobileLeft: 30, mobileTop: 35 },
   ];
 
   // Use responsive mobile hook
@@ -142,120 +142,210 @@ export default function Game() {
   };
 
   return (
-    <div className={`min-h-screen relative overflow-auto time-${timeOfDay}`}>
-      {/* Stardew Valley Farm Background */}
-      <div className="bg-sky"></div>
-      <div className="bg-mountains"></div>
-      <div className="bg-trees"></div>
-      
-      {/* Game header */}
-      <div className="absolute top-20 md:top-24 left-2 md:left-4 right-2 md:right-4 z-10">
-        <div className="wood-frame px-shadow-2">
-          <div className="flex items-center justify-between p-4">
-            <div>
-              <h2 className="text-primary text-lg md:text-xl font-pixel font-bold">🌳 Roadmap {techTitles[currentTech] || currentTech}</h2>
-              <p className="text-muted-foreground text-sm mt-1 font-sans">Clique nos pontos para começar sua jornada!</p>
-            </div>
-            <CurrencyBox amount={completedLessons.size * 100} type="xp" label="XP" animated />
-          </div>
-        </div>
-      </div>
-
-      {/* Game Map */}
-      <div className="relative w-full h-screen pt-32 md:pt-36 overflow-hidden" data-testid="game-map">
-        {/* Forest background elements */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        {/* Floating Particles */}
         <div className="absolute inset-0 overflow-hidden">
-          {/* Trees */}
-          <div className="absolute bottom-20 left-10 w-16 h-20 bg-secondary rounded-t-full opacity-60"></div>
-          <div className="absolute bottom-32 right-20 w-12 h-16 bg-secondary rounded-t-full opacity-60"></div>
-          <div className="absolute top-40 left-1/4 w-14 h-18 bg-secondary rounded-t-full opacity-60"></div>
-          
-          {/* Hills */}
-          <div className="absolute bottom-0 left-0 w-1/3 h-32 bg-secondary rounded-t-full opacity-40"></div>
-          <div className="absolute bottom-0 right-0 w-1/4 h-24 bg-secondary rounded-t-full opacity-40"></div>
+          {Array.from({ length: 20 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute rounded-full bg-white/10 animate-float"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                width: `${4 + Math.random() * 8}px`,
+                height: `${4 + Math.random() * 8}px`,
+                animationDelay: `${Math.random() * 4}s`,
+                animationDuration: `${4 + Math.random() * 4}s`
+              }}
+            />
+          ))}
         </div>
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="h-full w-full" style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+            backgroundSize: '40px 40px'
+          }} />
+        </div>
+      </div>
 
-        {/* Adventure path - simplified for mobile */}
-        <svg className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }}>
-          <path 
-            className="dirt-path" 
-            d={isMobile 
-              ? "M 60 460 Q 120 400 180 420 T 280 380 T 380 340 T 60 280 T 180 240" 
-              : "M 100 500 Q 200 400 300 450 T 500 400 T 700 350 T 900 300 T 1100 250"
-            }
-          />
-        </svg>
+      {/* Main Container */}
+      <div className="relative z-10 min-h-screen flex flex-col">
+        
+        {/* Header */}
+        <header className="p-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-6">
+              <button 
+                onClick={backToMenu}
+                className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 text-white hover:bg-white/20 transition-all duration-300 group"
+                data-testid="button-back-to-menu"
+              >
+                <svg className="w-4 h-4 transition-transform group-hover:-translate-x-1" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+                </svg>
+                Voltar
+              </button>
 
-        {/* Level Nodes */}
-        {currentRoadmap.map((lesson, index) => {
-          const basePosition = levelPositions[index] || { left: 100 + (index * 150), top: 400 - (index * 30), mobileLeft: 50 + (index * 80), mobileTop: 400 - (index * 40) };
-          const position = isMobile 
-            ? { left: basePosition.mobileLeft || basePosition.left, top: basePosition.mobileTop || basePosition.top }
-            : { left: basePosition.left, top: basePosition.top };
-          const isCompleted = completedLessons.has(index);
-          const isBoss = lesson.type === 'boss';
-          
-          return (
-            <button
-              key={lesson.id}
-              className={`absolute cursor-pointer focus:outline-none focus:ring-4 focus:ring-primary focus:ring-opacity-50 signpost px-shadow-2 ${
-                isBoss ? 'w-20 h-16' : 'w-16 h-12'
-              } ${isCompleted ? 'px-outline-gold' : ''}`}
-              style={{ 
-                left: `${position.left}px`, 
-                top: `${position.top}px`, 
-                zIndex: 2 
-              }}
-              onClick={() => openLesson(index)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  openLesson(index);
-                }
-              }}
-              aria-label={`${lesson.type === 'boss' ? 'Chefão' : 'Lição'}: ${lesson.title}`}
-              tabIndex={0}
-              data-testid={`node-level-${index + 1}`}
-            >
-              <div className="node-label font-pixel px-shadow-1">{levelLabels[index]}</div>
-              {/* Dust effect on hover/click */}
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <span className="text-xs">💨</span>
+              <div className="flex items-center gap-4">
+                <CurrencyBox amount={completedLessons.size * 100} type="xp" label="XP" animated />
+                <div className="px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 text-white">
+                  <span className="text-sm opacity-80">Progresso:</span>
+                  <span className="ml-2 font-bold">{Math.round((completedLessons.size / currentRoadmap.length) * 100)}%</span>
+                </div>
               </div>
-            </button>
-          );
-        })}
-      </div>
+            </div>
 
-      {/* Status Bars and Hotbar */}
-      <div className="absolute bottom-4 left-4 z-20">
-        <StatusBars 
-          health={{ current: Math.max(50, 100 - (currentRoadmap.length - completedLessons.size) * 10), max: 100 }}
-          energy={{ current: Math.max(30, 100 - (currentRoadmap.length - completedLessons.size) * 8), max: 100 }}
-        />
-      </div>
+            {/* Title Section */}
+            <div className="text-center mb-8">
+              <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+                {techTitles[currentTech] || currentTech}
+              </h1>
+              <p className="text-xl text-white/80 max-w-2xl mx-auto">
+                Sua jornada de aprendizado - clique nas lições para progredir
+              </p>
+            </div>
+          </div>
+        </header>
 
-      <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
-        <Hotbar 
-          items={[
-            { name: "Lição", icon: "📚", count: completedLessons.size },
-            { name: "Certificado", icon: "🏆" },
-            { name: "Dica", icon: "💡" },
-            { name: "Progresso", icon: "📊" },
-            { name: "Conquista", icon: "🎖️" },
-          ]}
-          selectedIndex={0}
-        />
-      </div>
+        {/* Learning Path */}
+        <main className="flex-1 px-6 pb-8">
+          <div className="max-w-7xl mx-auto">
+            
+            {/* Progress Bar */}
+            <div className="mb-12">
+              <div className="relative w-full h-3 bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
+                <div 
+                  className="absolute inset-y-0 left-0 bg-gradient-to-r from-green-400 to-blue-500 rounded-full transition-all duration-1000 ease-out"
+                  style={{ width: `${(completedLessons.size / currentRoadmap.length) * 100}%` }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-pulse" />
+              </div>
+              <div className="flex justify-between mt-2 text-sm text-white/60">
+                <span>Início</span>
+                <span>{completedLessons.size} de {currentRoadmap.length} concluídas</span>
+                <span>Certificação</span>
+              </div>
+            </div>
 
-      {/* Back to menu button */}
-      <button 
-        onClick={backToMenu}
-        className="absolute top-20 md:top-24 right-2 md:right-4 z-20 pixel-btn-brown text-sm font-pixel hover:glow-primary transition-all duration-200 touch-manipulation px-shadow-1"
-        data-testid="button-back-to-menu"
-      >
-        ← Voltar
-      </button>
+            {/* Lessons Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" data-testid="game-map">
+              {currentRoadmap.map((lesson, index) => {
+                const isCompleted = completedLessons.has(index);
+                const isBoss = lesson.type === 'boss';
+                const isLocked = index > 0 && !completedLessons.has(index - 1);
+                
+                return (
+                  <div
+                    key={lesson.id}
+                    className={`group relative transition-all duration-300 ${
+                      isLocked ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-105'
+                    }`}
+                  >
+                    <button
+                      className={`w-full p-6 rounded-2xl border transition-all duration-300 ${
+                        isCompleted
+                          ? 'bg-gradient-to-br from-green-500/20 to-blue-500/20 border-green-400/50 shadow-lg shadow-green-500/25'
+                          : isLocked
+                          ? 'bg-white/5 border-white/10'
+                          : isBoss
+                          ? 'bg-gradient-to-br from-purple-500/20 to-pink-500/20 border-purple-400/50 hover:shadow-lg hover:shadow-purple-500/25'
+                          : 'bg-white/10 border-white/20 hover:bg-white/15 hover:shadow-lg hover:shadow-blue-500/25'
+                      } backdrop-blur-sm`}
+                      onClick={() => !isLocked && openLesson(index)}
+                      disabled={isLocked}
+                      aria-label={`${lesson.type === 'boss' ? 'Chefão' : 'Lição'}: ${lesson.title}`}
+                      data-testid={`node-level-${index + 1}`}
+                    >
+                      {/* Lesson Number */}
+                      <div className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold mb-4 ${
+                        isCompleted
+                          ? 'bg-green-500 text-white'
+                          : isBoss
+                          ? 'bg-purple-500 text-white'
+                          : isLocked
+                          ? 'bg-gray-600 text-gray-400'
+                          : 'bg-blue-500 text-white'
+                      }`}>
+                        {isCompleted ? '✓' : index + 1}
+                      </div>
+
+                      {/* Lesson Title */}
+                      <h3 className={`text-lg font-bold mb-2 ${
+                        isLocked ? 'text-gray-400' : 'text-white'
+                      }`}>
+                        {isBoss && '👑 '}
+                        {lesson.title}
+                      </h3>
+
+                      {/* Lesson Description */}
+                      <p className={`text-sm leading-relaxed ${
+                        isLocked ? 'text-gray-500' : 'text-white/70'
+                      }`}>
+                        Clique para começar esta lição
+                      </p>
+
+                      {/* Status Indicator */}
+                      <div className="flex items-center justify-between mt-4">
+                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${
+                          isCompleted
+                            ? 'bg-green-500/20 text-green-300'
+                            : isLocked
+                            ? 'bg-gray-600/20 text-gray-400'
+                            : isBoss
+                            ? 'bg-purple-500/20 text-purple-300'
+                            : 'bg-blue-500/20 text-blue-300'
+                        }`}>
+                          {isCompleted ? 'Concluída' : isLocked ? 'Bloqueada' : isBoss ? 'Boss Fight' : 'Disponível'}
+                        </span>
+
+                        {lesson.type === 'boss' && (
+                          <div className="text-2xl">🏆</div>
+                        )}
+                      </div>
+
+                      {/* Completion Glow Effect */}
+                      {isCompleted && (
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-green-400/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      )}
+                    </button>
+
+                    {/* Lock Icon for Locked Lessons */}
+                    {isLocked && (
+                      <div className="absolute top-4 right-4 text-gray-400">
+                        🔒
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </main>
+
+        {/* Bottom Stats */}
+        <footer className="p-6">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-4">
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 text-white">
+                <span>📚</span>
+                <span className="text-sm">Lições: {completedLessons.size}/{currentRoadmap.length}</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 text-white">
+                <span>⭐</span>
+                <span className="text-sm">XP: {completedLessons.size * 100}</span>
+              </div>
+              <div className="flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20 text-white">
+                <span>🎯</span>
+                <span className="text-sm">Meta: Certificação</span>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
 
       {/* Lesson Modal */}
       {currentLessonIndex !== null && (
