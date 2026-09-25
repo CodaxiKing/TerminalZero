@@ -1,0 +1,26 @@
+{
+  "name": "terminalzero",
+  "version": "0.1.0",
+  "description": "Divide um vídeo em partes de 5s, organiza os resultados gerados e junta tudo em sequência",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodaxiKing/TerminalZero.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CodaxiKing/TerminalZero/issues"
+  },
+  "homepage": "https://github.com/CodaxiKing/TerminalZero#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "ffmpeg-static": "^5.3.0",
+    "ffprobe-static": "^3.1.0",
+    "multer": "^2.4.0"
+  },
+  "private": true,
+  "type": "commonjs"
+}
