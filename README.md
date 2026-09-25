@@ -53,3 +53,38 @@ topo do arquivo.
 
 Quando uma geração falha, o app salva um **print e o HTML da página** em `data/jobs/<id>/debug` e mostra
 links para eles na parte que falhou — mande esses arquivos para ajustar os seletores.
+
+## App Android (APK)
+
+A pasta `android/` tem uma versão que roda **toda no celular**, sem PC:
+
+- Divisão e junção com FFmpeg no próprio aparelho (mesma lógica: partes iguais até o máximo, FPS
+  original, transição suave e áudio original opcionais).
+- A Higgsfield abre num navegador embutido (aba **Navegador**). O app faz login, envia cada parte com o
+  personagem, espera o card mais recente e baixa o resultado. Fila **Gerar todas**, parada por falta de
+  créditos e print/HTML de diagnóstico funcionam como na versão web.
+- O vídeo final pode ser salvo na galeria (Filmes/TerminalZero) ou compartilhado.
+
+### Baixar
+
+Cada push em `android/` compila o APK no GitHub Actions e publica na release
+**android-latest** do repositório (Releases → `TerminalZero.apk`). No celular, baixe e instale
+(permita "instalar apps desconhecidos" para o navegador, se o Android pedir).
+
+### Dicas
+
+- Mantenha o app aberto durante a geração (a tela fica ligada automaticamente).
+- Login com Google não funciona dentro de apps; use email e senha, ou entre manualmente pela aba
+  Navegador. Captcha/código de verificação também se resolvem nessa aba.
+- O **modo desktop** (aba Conta) abre a Higgsfield com o layout do computador; desligue se preferir o
+  layout de celular.
+
+### Compilar localmente
+
+Com Android Studio ou o Android SDK instalado:
+
+```bash
+cd android
+./gradlew assembleRelease
+# APK em android/app/build/outputs/apk/release/app-release.apk
+```
