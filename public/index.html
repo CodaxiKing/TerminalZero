@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TerminalZero</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main>
+    <header>
+      <h1>TerminalZero</h1>
+      <p class="muted">Divide o vídeo em partes de 5s, gera cada parte com o seu personagem e junta tudo no final.</p>
+    </header>
+
+    <section id="setup" class="panel">
+      <div class="cards">
+        <label class="card" id="motion-card">
+          <input type="file" id="motion" accept="video/*" hidden />
+          <div class="icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M4 6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2.5l4 3V7.5l-4 3V8a2 2 0 0 0-2-2H4z"/></svg>
+          </div>
+          <strong>Adicionar vídeo de movimento</strong>
+          <span class="muted">Será dividido em partes de 5 segundos</span>
+          <video class="preview" muted loop playsinline hidden></video>
+        </label>
+
+        <label class="card" id="character-card">
+          <input type="file" id="character" accept="image/*" hidden />
+          <div class="icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+          </div>
+          <strong>Adicionar personagem</strong>
+          <span class="muted">Imagem com rosto e corpo visíveis</span>
+          <img class="preview" alt="" hidden />
+        </label>
+      </div>
+      <button id="split" class="primary" disabled>Dividir em partes de 5s</button>
+    </section>
+
+    <section id="account" class="panel">
+      <h2>Conta Higgsfield</h2>
+      <p class="muted">Email e senha ficam só na memória do servidor local. A sessão do navegador é reaproveitada enquanto for válida.</p>
+      <form id="login" class="row">
+        <input type="email" id="email" placeholder="Email" autocomplete="username" required />
+        <input type="password" id="password" placeholder="Senha" autocomplete="current-password" required />
+        <button type="submit">Salvar login</button>
+      </form>
+      <p id="login-status" class="muted"></p>
+    </section>
+
+    <section id="job" class="panel" hidden>
+      <div class="row between">
+        <h2>Partes</h2>
+        <button id="reset" class="ghost">Novo projeto</button>
+      </div>
+      <p id="job-info" class="muted"></p>
+      <ol id="segments"></ol>
+
+      <div class="merge">
+        <label class="check"><input type="checkbox" id="keep-audio" checked /> Usar o áudio do vídeo original</label>
+        <button id="merge" class="primary" disabled>Juntar vídeos</button>
+      </div>
+      <div id="final" hidden>
+        <video controls playsinline></video>
+        <a class="button primary" download="final.mp4">Baixar vídeo final</a>
+      </div>
+    </section>
+
+    <p id="toast" role="status" hidden></p>
+  </main>
+
+  <template id="segment-tpl">
+    <li class="segment">
+      <div class="clips">
+        <figure><video muted controls playsinline preload="metadata"></video><figcaption>Original</figcaption></figure>
+        <figure class="result"><video controls playsinline preload="metadata"></video><figcaption>Resultado</figcaption></figure>
+      </div>
+      <div class="meta">
+        <strong class="title"></strong>
+        <span class="status muted"></span>
+        <div class="actions">
+          <button class="generate primary">Gerar na Higgsfield</button>
+          <label class="button ghost">Enviar manualmente<input type="file" accept="video/*" hidden /></label>
+        </div>
+      </div>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>

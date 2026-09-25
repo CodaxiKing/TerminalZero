@@ -4,6 +4,7 @@ const crypto = require("node:crypto");
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const video = require("./video");
+const higgsfield = require("./higgsfield");
 
 const PORT = Number(process.env.PORT) || 3000;
 const SEGMENT_SECONDS = 5;
@@ -37,6 +38,17 @@ async function loadJob(id) {
   }
 }
 
+// Estado das gerações em andamento (só em memória): "jobId:index" -> { state, message }.
+const generation = new Map();
+let busy = false;
+
+const withStatus = (job) => ({
+  ...job,
+  segments: job.segments.map((s) => ({ ...s, status: generation.get(`${job.id}:${s.index}`) ?? null })),
+  busy,
+  loggedIn: higgsfield.hasCredentials(),
+});
+
 const saveJob = (job) => fs.writeFile(path.join(jobDir(job.id), "job.json"), JSON.stringify(job, null, 2));
 
 // Cria um projeto: vídeo de movimento + imagem do personagem. Divide o vídeo em partes.
@@ -61,7 +73,7 @@ app.post(
         final: null,
       };
       await saveJob(job);
-      res.json(job);
+      res.json(withStatus(job));
     } catch (err) {
       console.error(err);
       await fs.rm(dir, { recursive: true, force: true });
@@ -73,7 +85,52 @@ app.post(
 app.get("/api/jobs/:id", async (req, res) => {
   const job = await loadJob(req.params.id);
   if (!job) return res.status(404).json({ error: "Projeto não encontrado." });
-  res.json(job);
+  res.json(withStatus(job));
+});
+
+// Guarda email e senha da conta Higgsfield só na memória do servidor.
+app.post("/api/higgsfield/login", (req, res) => {
+  const { email, password } = req.body ?? {};
+  if (!email || !password) return res.status(400).json({ error: "Informe email e senha." });
+  higgsfield.setCredentials(email, password);
+  res.json({ ok: true });
+});
+
+// Gera uma parte na Higgsfield (uma por vez) e salva o resultado no slot dela.
+app.post("/api/jobs/:id/segments/:index/generate", async (req, res) => {
+  const job = await loadJob(req.params.id);
+  const segment = job?.segments[Number(req.params.index)];
+  if (!segment) return res.status(404).json({ error: "Parte não encontrada." });
+  if (busy) return res.status(409).json({ error: "Já existe uma parte sendo gerada. Aguarde terminar." });
+
+  const key = `${job.id}:${segment.index}`;
+  const dir = jobDir(job.id);
+  const log = (message) => generation.set(key, { state: "running", message });
+
+  busy = true;
+  log("Iniciando...");
+  res.json(withStatus(job));
+
+  try {
+    const name = `resultado_${String(segment.index + 1).padStart(2, "0")}.mp4`;
+    await fs.mkdir(path.join(dir, "results"), { recursive: true });
+    await higgsfield.generate({
+      motionFile: path.join(dir, "segments", segment.file),
+      characterFile: job.character ? path.join(dir, job.character) : null,
+      outFile: path.join(dir, "results", name),
+      log,
+    });
+    const fresh = await loadJob(job.id);
+    fresh.segments[segment.index].result = name;
+    fresh.final = null;
+    await saveJob(fresh);
+    generation.set(key, { state: "done", message: "Concluído." });
+  } catch (err) {
+    console.error(err);
+    generation.set(key, { state: "error", message: err.message });
+  } finally {
+    busy = false;
+  }
 });
 
 // Envia o vídeo gerado para uma parte específica.
@@ -98,7 +155,7 @@ app.post(
     req.segment.result = name;
     req.job.final = null;
     await saveJob(req.job);
-    res.json(req.job);
+    res.json(withStatus(req.job));
   }
 );
 
@@ -118,7 +175,7 @@ app.post("/api/jobs/:id/merge", async (req, res) => {
     );
     job.final = "final.mp4";
     await saveJob(job);
-    res.json(job);
+    res.json(withStatus(job));
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Não foi possível juntar os vídeos." });
