@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.TerminalZero" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
+    </style>
+    <color name="background">#111112</color>
+    <color name="accent">#D4FF3F</color>
+</resources>

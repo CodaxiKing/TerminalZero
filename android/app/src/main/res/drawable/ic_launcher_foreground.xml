@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Câmera de vídeo estilizada sobre o fundo escuro. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#D4FF3F"
+        android:pathData="M34,40h28a6,6 0,0 1,6 6v4.5l10,-7.5v22l-10,-7.5V62a6,6 0,0 1,-6 6H34a6,6 0,0 1,-6 -6V46a6,6 0,0 1,6 -6z" />
+</vector>
