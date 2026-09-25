@@ -3,18 +3,28 @@
 // usada quando a sessão expira. Nada de credenciais é gravado em disco pelo app.
 //
 // Os seletores foram escritos sem acesso ao site logado. Se a Higgsfield mudar a
-// página ou algo não for encontrado, ajuste as constantes abaixo.
+// página ou algo não for encontrado, ajuste as constantes abaixo. Quando uma geração
+// falha, um print e o HTML da página são salvos em data/jobs/<id>/debug.
 const fs = require("node:fs/promises");
 const path = require("node:path");
 const { chromium } = require("playwright");
 
-const MOTION_URL = "https://higgsfield.ai/ai/video/motion";
+const MOTION_URL = process.env.HIGGSFIELD_URL || "https://higgsfield.ai/ai/video/motion";
 const PROFILE_DIR = path.join(__dirname, "..", "data", "browser");
 const HEADLESS = process.env.HEADLESS === "1";
 const GENERATION_TIMEOUT = Number(process.env.GENERATION_TIMEOUT_MIN || 20) * 60_000;
 
 const SIGN_IN_TEXT = /^(sign in|log in|login|entrar)$/i;
 const GENERATE_TEXT = /^(generate|gerar|create)\b/i;
+const NO_CREDITS_TEXT =
+  /(not enough credits|insufficient credits|out of credits|no credits left|you have run out of credits|créditos insuficientes|sem créditos)/i;
+
+class NoCreditsError extends Error {
+  constructor() {
+    super("Sem créditos na conta Higgsfield.");
+    this.code = "NO_CREDITS";
+  }
+}
 
 let context = null;
 let credentials = null;
@@ -24,6 +34,7 @@ async function getContext() {
   await fs.mkdir(PROFILE_DIR, { recursive: true });
   context = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: HEADLESS,
+    executablePath: process.env.CHROMIUM_PATH || undefined,
     acceptDownloads: true,
     viewport: { width: 1400, height: 900 },
   });
@@ -82,6 +93,11 @@ async function ensureLoggedIn(page, log) {
   throw new Error("Não foi possível confirmar o login.");
 }
 
+async function checkCredits(page) {
+  const text = await page.locator("body").innerText().catch(() => "");
+  if (NO_CREDITS_TEXT.test(text)) throw new NoCreditsError();
+}
+
 // Coloca o vídeo e o personagem nos campos de upload da página de Motion.
 async function fillInputs(page, motionFile, characterFile) {
   const inputs = page.locator('input[type="file"]');
@@ -106,55 +122,96 @@ async function fillInputs(page, motionFile, characterFile) {
   }
 }
 
-async function videoUrls(page) {
-  return page.$$eval("video, video source", (els) =>
-    els.map((el) => el.currentSrc || el.src).filter((src) => src && /^https?:/.test(src))
+// Vídeos visíveis na página, do card mais recente para o mais antigo. Nas galerias
+// da Higgsfield a geração nova entra no topo, então ordenamos por posição na tela.
+async function videosByRecency(page) {
+  return page.$$eval("video", (els) =>
+    els
+      .map((el) => {
+        const src = el.currentSrc || el.src || el.querySelector("source")?.src || "";
+        const box = el.getBoundingClientRect();
+        return { src, top: box.top + window.scrollY, left: box.left + window.scrollX, visible: box.width > 0 };
+      })
+      .filter((v) => v.visible && /^https?:/.test(v.src))
+      .sort((a, b) => a.top - b.top || a.left - b.left)
+      .map((v) => v.src)
   );
 }
 
-// Gera uma parte: envia os arquivos, clica em gerar, espera o vídeo novo e baixa.
-async function generate({ motionFile, characterFile, outFile, log = () => {} }) {
-  const page = await getPage();
-  await ensureLoggedIn(page, log);
+async function saveDebug(page, debugDir, name) {
+  if (!page || !debugDir) return [];
+  await fs.mkdir(debugDir, { recursive: true });
+  const base = path.join(debugDir, `${name}_${new Date().toISOString().replace(/[:.]/g, "-")}`);
+  const files = [];
+  await page.screenshot({ path: `${base}.png`, fullPage: true }).then(() => files.push(`${base}.png`)).catch(() => {});
+  await page.content().then((html) => fs.writeFile(`${base}.html`, html)).then(() => files.push(`${base}.html`)).catch(() => {});
+  return files;
+}
 
-  log("Enviando arquivos...");
-  await fillInputs(page, motionFile, characterFile);
-
-  // Guarda os vídeos já existentes (histórico) para identificar o resultado novo.
-  const seen = new Set(await videoUrls(page));
-  const fromNetwork = [];
-  const onResponse = (res) => {
-    const type = res.headers()["content-type"] || "";
-    if (type.startsWith("video/") && !seen.has(res.url())) fromNetwork.push(res.url());
-  };
-
-  const button = page.getByRole("button", { name: GENERATE_TEXT }).last();
-  log("Aguardando o upload terminar...");
-  await button.waitFor({ timeout: 60_000 });
-  const uploadDeadline = Date.now() + 5 * 60_000;
-  while (!(await button.isEnabled()) && Date.now() < uploadDeadline) await page.waitForTimeout(1000);
-  (await videoUrls(page)).forEach((url) => seen.add(url));
-
-  page.on("response", onResponse);
+// Gera uma parte: envia os arquivos, clica em gerar, espera o card mais recente
+// ficar pronto e baixa o vídeo dele.
+async function generate({ motionFile, characterFile, outFile, debugDir, debugName = "erro", log = () => {} }) {
+  let page = null;
   try {
+    page = await getPage();
+    await ensureLoggedIn(page, log);
+    await checkCredits(page);
+
+    log("Enviando arquivos...");
+    await fillInputs(page, motionFile, characterFile);
+
+    const button = page.getByRole("button", { name: GENERATE_TEXT }).last();
+    log("Aguardando o upload terminar...");
+    await button.waitFor({ timeout: 60_000 });
+    const uploadDeadline = Date.now() + 5 * 60_000;
+    while (!(await button.isEnabled()) && Date.now() < uploadDeadline) {
+      await checkCredits(page);
+      await page.waitForTimeout(1000);
+    }
+    if (!(await button.isEnabled())) {
+      await checkCredits(page);
+      throw new Error("O botão de gerar não ficou disponível.");
+    }
+
+    // Tudo que já está na tela (histórico e prévias do upload) não é o resultado.
+    const seen = new Set(await videosByRecency(page));
+    const inputSize = (await fs.stat(motionFile)).size;
+
     await button.click();
     log("Gerando na Higgsfield (pode levar alguns minutos)...");
+    await page.waitForTimeout(3000);
+    await checkCredits(page);
 
     const deadline = Date.now() + GENERATION_TIMEOUT;
-    let url = null;
-    while (!url && Date.now() < deadline) {
+    let candidate = null;
+    while (Date.now() < deadline) {
       await page.waitForTimeout(5000);
-      url = (await videoUrls(page)).find((src) => !seen.has(src)) ?? fromNetwork.find((src) => !seen.has(src));
-    }
-    if (!url) throw new Error("Tempo esgotado esperando o vídeo gerado.");
+      await checkCredits(page);
+      const newest = (await videosByRecency(page)).find((src) => !seen.has(src));
+      if (!newest) continue;
+      // Só aceita quando o mesmo vídeo aparece em duas verificações seguidas.
+      if (newest !== candidate) {
+        candidate = newest;
+        continue;
+      }
 
-    log("Baixando resultado...");
-    const res = await page.context().request.get(url);
-    if (!res.ok()) throw new Error(`Falha ao baixar o vídeo (${res.status()}).`);
-    await fs.writeFile(outFile, await res.body());
-    return outFile;
-  } finally {
-    page.off("response", onResponse);
+      log("Baixando resultado...");
+      const res = await page.context().request.get(newest);
+      if (!res.ok()) throw new Error(`Falha ao baixar o vídeo (${res.status()}).`);
+      const body = await res.body();
+      if (body.length === inputSize) {
+        // É o próprio vídeo enviado sendo exibido no card; continua esperando.
+        seen.add(newest);
+        candidate = null;
+        continue;
+      }
+      await fs.writeFile(outFile, body);
+      return outFile;
+    }
+    throw new Error("Tempo esgotado esperando o vídeo gerado.");
+  } catch (err) {
+    err.debug = await saveDebug(page, debugDir, debugName);
+    throw err;
   }
 }
 

@@ -164,3 +164,51 @@ figcaption { font-size: 12px; color: var(--muted); margin-top: 4px; }
 @media (max-width: 640px) {
   .segment { grid-template-columns: 1fr; }
 }
+
+.row.tight { gap: 6px; }
+.field { display: grid; gap: 6px; font-size: 14px; }
+input[type="number"] {
+  font: inherit;
+  width: 72px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+#task { display: grid; gap: 6px; }
+.progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--card);
+  overflow: hidden;
+}
+.progress div {
+  height: 100%;
+  width: 0;
+  background: var(--accent);
+  transition: width 0.3s;
+}
+
+.error-text { color: var(--danger); font-size: 14px; margin: 0; }
+.status.queued { color: var(--text); }
+.status.no-credits { color: #ffb347; }
+.debug { display: flex; flex-wrap: wrap; gap: 12px; font-size: 13px; }
+.debug:empty { display: none; }
+.debug a { color: var(--accent); }
+.options { display: grid; gap: 6px; }
+
+#project-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.project {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+.project > div:first-child { display: grid; gap: 2px; min-width: 0; }
