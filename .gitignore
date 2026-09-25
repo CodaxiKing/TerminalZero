@@ -3,3 +3,8 @@ data/
 *.log
 .env
 .npm-cache/
+.android-tools/
+android/.gradle/
+android/**/build/
+android/local.properties
+artifacts/
